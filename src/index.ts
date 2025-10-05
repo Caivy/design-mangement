@@ -1,9 +1,12 @@
+import { schema } from 'auth-schema';
 import { drizzle } from 'drizzle-orm/node-postgres';
-// import { env } from '@/env'
 
 export const db = drizzle({
   connection: {
     connectionString: process.env.DATABASE_URL,
-    ssl: true
-  }
+    ssl: {
+      rejectUnauthorized: false, // Accept self-signed certificates
+    },
+  },
+  schema: schema,
 });
