@@ -1,11 +1,11 @@
 import {
   HeadContent,
   Scripts,
-  createRootRouteWithContext,
+  createRootRouteWithContext
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
-
+import { wrapCreateRootRouteWithSentry } from '@sentry/tanstackstart-react'
 import Header from '../components/Header'
 
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
@@ -18,7 +18,11 @@ interface MyRouterContext {
   queryClient: QueryClient
 }
 
-export const Route = createRootRouteWithContext<MyRouterContext>()({
+const createRootRouteWithContextAndSentry = wrapCreateRootRouteWithSentry(
+  createRootRouteWithContext<MyRouterContext>
+)
+
+export const Route = createRootRouteWithContextAndSentry()({
   head: () => ({
     meta: [
       {
@@ -29,7 +33,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        title: 'Design-Management',
       },
     ],
     links: [
